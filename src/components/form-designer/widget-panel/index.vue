@@ -92,7 +92,6 @@
 
 <script>
   import {containers as CONS, basicFields as BFS, advancedFields as AFS, customFields as CFS} from "./widgetsConfig"
-  import {formTemplates} from './templatesConfig'
   import {addWindowResizeHandler, generateId} from "@/utils/util"
   import i18n from "@/utils/i18n"
   import axios from 'axios'
@@ -131,8 +130,7 @@
         basicFields: [],
         advancedFields: [],
         customFields: [],
-
-        formTemplates: formTemplates,
+        formTemplates: [],
         // ftImages: [
         //   {imgUrl: ftImg1},
         //   {imgUrl: ftImg2},
@@ -150,6 +148,7 @@
     },
     created() {
       this.loadWidgets()
+      this.loadTemlates()
     },
     mounted() {
       //this.loadWidgets()
@@ -169,10 +168,14 @@
 
       showFormTemplates() {
         if (this.designerConfig['formTemplates'] === undefined) {
-          return true
+          return false
         }
 
-        return !!this.designerConfig['formTemplates']
+        return this.designerConfig['formTemplates'] && this.designerConfig['formTemplates'].length > 0
+      },
+
+      loadTemlates() {
+        this.formTemplates = this.designerConfig['formTemplates']
       },
 
       loadWidgets() {
