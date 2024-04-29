@@ -173,6 +173,7 @@
         axios({
           url: serverDsv.base + serverDsv.unit,
           method: 'get',
+          headers: serverDsv.headers,
           params: serverDsv.params
         }).then(res => {
           if (!!res.data.code) {
@@ -192,6 +193,7 @@
         axios({
           url: serverDsv.base + serverDsv.user,
           method: 'get',
+          headers: serverDsv.headers,
           params: {
             companyId: serverDsv.params.companyId,
             path: this.path,

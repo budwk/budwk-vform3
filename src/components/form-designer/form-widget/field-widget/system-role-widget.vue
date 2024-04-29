@@ -165,6 +165,7 @@
         axios({
           url: serverDsv.base + serverDsv.unit,
           method: 'get',
+          headers: serverDsv.headers,
           params: {
             companyId: serverDsv.params.companyId,
           }
@@ -187,6 +188,7 @@
         axios({
           url: serverDsv.base + serverDsv.role,
           method: 'get',
+          headers: serverDsv.headers,
           params: {
             companyId: this.companyId,
             name: this.searchValue,

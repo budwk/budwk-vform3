@@ -164,6 +164,7 @@
         axios({
           url: serverDsv.base + serverDsv.unit,
           method: 'get',
+          headers: serverDsv.headers,
           params: {
             companyId: serverDsv.params.companyId,
             name: this.searchValue
