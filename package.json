@@ -1,6 +1,6 @@
 {
   "name": "wk-vform3",
-  "version": "1.0.2",
+  "version": "1.0.7",
   "private": false,
   "scripts": {
     "dev": "vite",
