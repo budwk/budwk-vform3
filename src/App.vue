@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <VFormDesigner ref="vfDesignerRef" :global-dsv="globalDsv" :designerConfig="{
+    <VFormDesigner ref="vfDesignerRef" :global-dsv="globalDsv" :server-dsv="serverDsv" :designerConfig="{
       formTemplates: formTemplates,
       uploadHeaders: uploadHeaders,
     }">
@@ -25,8 +25,21 @@ export default {
     return {
       //全局数据源变量
       globalDsv: {
-        testApiHost: 'http://www.test.com/api',
+        testApiHost: 'http://127.0.0.1:9912/office',
         testPort: 8080,
+      },
+      //后台服务配置(查询用户/角色/部门)
+      serverDsv: {
+        base: 'http://127.0.0.1:9912/office',
+        user: '/pub/data/user/list',
+        unit: '/pub/data/unit/list',
+        role: '/pub/data/role/list',
+        headers: {
+          'X-Token': 'test-token'
+        },
+        params: {
+          'companyId': ''
+        }
       },
       uploadHeaders: {
         'X-Token': 'test-token'

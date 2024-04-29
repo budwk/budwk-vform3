@@ -931,12 +931,15 @@ export const systemFields = [
       labelHidden: false,
       columnWidth: '200px',
       disabled: false,
+      readonly: true,
       hidden: false,
       required: false,
       requiredHint: '',
       customRule: '',
       customRuleHint: '',
       //-------------------
+      closable: true,
+      multiple: true,
       permission: 'owner',//member-成员 owner-拥有者 none-无
       //-------------------
       customClass: '',  //自定义css类名
@@ -946,12 +949,7 @@ export const systemFields = [
       //-------------------
       onCreated: '',
       onMounted: '',
-      onBeforeUpload: '',
-      onUploadSuccess: '',
-      onUploadError: '',
-      onFileRemove: '',
       onValidate: '',
-      //onFileChange: '',
     },
 
   },
@@ -972,6 +970,9 @@ export const systemFields = [
       requiredHint: '',
       customRule: '',
       customRuleHint: '',
+      appendButton: true,
+      appendButtonDisabled: false,
+      buttonIcon: 'unit',
       //-------------------
       permission: 'owner',//member-成员 owner-拥有者 none-无
       //-------------------
@@ -1008,6 +1009,9 @@ export const systemFields = [
       requiredHint: '',
       customRule: '',
       customRuleHint: '',
+      appendButton: true,
+      appendButtonDisabled: false,
+      buttonIcon: 'role',
       //-------------------
       permission: 'owner',//member-成员 owner-拥有者 none-无
       //-------------------

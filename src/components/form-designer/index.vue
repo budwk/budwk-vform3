@@ -17,7 +17,7 @@
 
       <el-container class="center-layout-container">
         <el-header class="toolbar-header">
-          <toolbar-panel :designer="designer" :global-dsv="globalDsv" ref="toolbarRef">
+          <toolbar-panel :designer="designer" :global-dsv="globalDsv" :server-dsv="serverDsv" ref="toolbarRef">
             <template v-for="(idx, slotName) in $slots" #[slotName]>
               <slot :name="slotName"></slot>
             </template>
@@ -25,7 +25,7 @@
         </el-header>
         <el-main class="form-widget-main">
           <el-scrollbar class="container-scroll-bar" :style="{height: scrollerHeight}">
-            <v-form-widget :designer="designer" :form-config="designer.formConfig" :global-dsv="globalDsv" ref="formRef">
+            <v-form-widget :designer="designer" :form-config="designer.formConfig" :global-dsv="globalDsv" :server-dsv="serverDsv" ref="formRef">
             </v-form-widget>
           </el-scrollbar>
         </el-main>
@@ -33,7 +33,7 @@
 
       <el-aside>
         <setting-panel :designer="designer" :selected-widget="designer.selectedWidget"
-                       :form-config="designer.formConfig" :global-dsv="globalDsv" @edit-event-handler="testEEH" />
+                       :form-config="designer.formConfig" :global-dsv="globalDsv" :server-dsv="serverDsv" @edit-event-handler="testEEH" />
       </el-aside>
     </el-container>
 
@@ -107,6 +107,11 @@
 
       /* 全局数据源变量 */
       globalDsv: {
+        type: Object,
+        default: () => ({})
+      },
+
+      serverDsv: {
         type: Object,
         default: () => ({})
       },

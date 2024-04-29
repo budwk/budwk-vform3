@@ -1,7 +1,7 @@
 import { traverseFieldWidgetsOfContainer } from "@/utils/util";
 
 export default {
-  inject: ['getFormConfig', 'getGlobalDsv'],
+  inject: ['getFormConfig', 'getGlobalDsv', 'getServerDsv'],
   computed: {
     customClass() {
       return this.widget.options.customClass || ''

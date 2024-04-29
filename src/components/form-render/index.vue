@@ -77,6 +77,10 @@
         type: Object,
         default: () => ({})
       },
+      serverDsv: {
+        type: Object,
+        default: () => ({})
+      }
     },
     provide() {
       return {
@@ -84,6 +88,7 @@
         sfRefList: this.subFormRefList,  //收集SubForm引用
         getFormConfig: () => this.formJsonObj.formConfig,  /* 解决provide传递formConfig属性的响应式更新问题！！ */
         getGlobalDsv: () => this.globalDsv, // 全局数据源变量
+        getServerDsv: () => this.serverDsv,
         globalOptionData: this.optionData,
         getOptionData: () => this.optionData,  /* 该方法用于在异步更新option-data之后重新获取到最新值 */
         globalModel: {
@@ -707,6 +712,10 @@
        */
       getGlobalDsv() {
         return this.globalDsv
+      },
+
+      getServerDsv() {
+        return this.serverDsv
       },
 
       //--------------------- 以上为组件支持外部调用的API方法 end ------------------//

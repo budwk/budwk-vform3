@@ -55,12 +55,17 @@
         type: Object,
         default: () => ({})
       },
+      serverDsv: {
+        type: Object,
+        default: () => ({})
+      },
     },
     provide() {
       return {
         refList: this.widgetRefList,
         getFormConfig: () => this.formConfig,  /* 解决provide传递formConfig属性的响应式更新问题！！ */
         getGlobalDsv: () => this.globalDsv, // 全局数据源变量
+        getServerDsv: () => this.serverDsv, // 后台服务配置
         globalOptionData: this.optionData,
         getOptionData: () => this.optionData,
         globalModel: {

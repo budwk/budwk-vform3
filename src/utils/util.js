@@ -375,3 +375,62 @@ export function buildDefaultFormJson() {
     formConfig: deepClone( getDefaultFormConfig() )
   }
 }
+
+/**
+ * 构造树型结构数据
+ * @param {*} data 数据源
+ * @param {*} lazy 是否lazy加载(非lazy加载要排除hasChildren字段)
+ * @param {*} id id字段 默认 'id'
+ * @param {*} parentId 父节点字段 默认 'parentId'
+ * @param {*} children 孩子节点字段 默认 'children'
+ */
+export function handleTree(data, lazy=false, id='id', parentId='parentId', children='children') {
+  const config = {
+      lazy: lazy,
+      id: id,
+      parentId: parentId,
+      childrenList: children
+  }
+
+  const childrenListMap = {}
+  const nodeIds = {}
+  const tree = []
+
+  for (const d of data) {
+      const parentId = d[config.parentId];
+      if (childrenListMap[parentId] == null) {
+          childrenListMap[parentId] = []
+      }
+      if(!config.lazy){
+          d.hasChildren = undefined
+      }
+      nodeIds[d[config.id]] = d;
+      childrenListMap[parentId].push(d)
+  }
+
+  for (const d of data) {
+      const parentId = d[config.parentId]
+      if (nodeIds[parentId] == null) {
+          if(!config.lazy){
+              d.hasChildren = undefined
+          }
+          tree.push(d)
+      }
+  }
+
+  for (const t of tree) {
+      adaptToChildrenList(t);
+  }
+
+  function adaptToChildrenList(o) {
+      if (childrenListMap[o[config.id]] !== null) {
+          o[config.childrenList] = childrenListMap[o[config.id]]
+      }
+      if (o[config.childrenList]) {
+          for (const c of o[config.childrenList]) {
+              adaptToChildrenList(c)
+          }
+      }
+  }
+  return tree;
+}
