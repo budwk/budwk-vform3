@@ -3,8 +3,8 @@
                      :parent-widget="parentWidget" :parent-list="parentList" :index-of-parent-list="indexOfParentList"
                      :sub-form-row-index="subFormRowIndex" :sub-form-col-index="subFormColIndex" :sub-form-row-id="subFormRowId">
     
-    <el-tag v-for="(obj,idx) in fieldModel" :key="'user_'+idx" style="margin: 0 5px;" type="primary" :closable="field.options.clearable" @close="removeUser(obj)">
-      {{ obj.username }}
+    <el-tag v-for="(obj,idx) in fieldModel" :key="'role_'+idx" style="margin: 0 5px;" type="primary" :closable="field.options.clearable" @close="removeRole(obj)">
+      {{ obj.name }}
     </el-tag> 
     <el-button style="margin: 0 5px;"  v-if="field.options.multiple || (!field.options.multiple && fieldModel.length<1)" type="info" text @click="showDialogSelect">
       <el-icon color="#409efc" class="no-inherit">
@@ -32,28 +32,23 @@
         </el-aside>
         <el-main>
           <el-row>
-            <el-input v-model="searchValue" placeholder="请输入名称或用户名" clearable>
+            <el-input v-model="searchValue" placeholder="请输入角色名称" clearable>
               <template #append>
-                <el-button @click="searchUser" icon="el-icon-search"></el-button>
+                <el-button @click="searchRole" icon="el-icon-search"></el-button>
               </template>
             </el-input>
           </el-row>
-          <el-table :data="userList" stripe border @selection-change="handleSelectionChange">
+          <el-table :data="roleList" stripe border @selection-change="handleSelectionChange">
             <el-table-column v-if="field.options.multiple==true" type="selection" width="55"></el-table-column>
-            <el-table-column prop="username" label="名称"></el-table-column>
-            <el-table-column prop="loginname" label="用户名"></el-table-column>
+            <el-table-column prop="name" label="角色名称"></el-table-column>
             <el-table-column v-if="field.options.multiple==false" label="操作" align="center">
               <template #default="{ row }">
-                <el-button text type="primary" @click="selectUserOne(row)">选中</el-button>
+                <el-button text type="primary" @click="selectOne(row)">选中</el-button>
               </template>
             </el-table-column>
           </el-table>
-          <el-row style="text-align: right;">
-            <el-pagination style="padding: 5px 0;margin-right: 20px;" v-model:current-page="pageNo" 
-          v-model:page-size="pageSize" :total="userTotal" layout="total, prev, pager, next"
-          @change="getUser"
-          ></el-pagination>
-            <el-button style="margin: 5px 0;" v-if="field.options.multiple==true" type="primary" @click="selectUserMore">选择</el-button>
+          <el-row style="text-align: right;" v-if="field.options.multiple==true" >
+            <el-button style="margin: 5px 0;" type="primary" @click="selectMore">选择</el-button>
           </el-row>
     
         </el-main>
@@ -72,7 +67,7 @@
   import axios from 'axios'
 
   export default {
-    name: "system-user-widget",
+    name: "system-role-widget",
     componentName: 'FieldWidget',  //必须固定为FieldWidget，用于接收父级组件的broadcast事件
     mixins: [emitter, fieldMixin, i18n],
     props: {
@@ -114,13 +109,10 @@
         expandedKeys: [],
         unitList: [],
         unitTree: [],
-        userList: [],
-        userTotal: 0,
-        pageNo: 1,
-        pageSize: 10,
+        roleList: [],
         searchValue: '',
-        path: '',
-        selectUsers: []
+        selectRoles: [],
+        companyId: ''
       }
     },
     computed: {
@@ -160,11 +152,11 @@
 
     methods: {
       handleSelectionChange(data) {
-        this.selectUsers = data
+        this.selectRoles = data
       },
-      removeUser(user) {
-        // 从fieldModel删除user
-        this.fieldModel = this.fieldModel.filter(obj => obj.id !== user.id)
+      removeRole(role) {
+        // 从fieldModel删除
+        this.fieldModel = this.fieldModel.filter(obj => obj.id !== role.id)
       },
       showDialogSelect() {
         this.showDialog = true
@@ -173,7 +165,9 @@
         axios({
           url: serverDsv.base + serverDsv.unit,
           method: 'get',
-          params: serverDsv.params
+          params: {
+            companyId: serverDsv.params.companyId,
+          }
         }).then(res => {
           if (!!res.data.code) {
             this.$message.error('没有查询到单位数据')
@@ -182,63 +176,60 @@
           this.unitList = res.data.data
           this.unitTree = handleTree(this.unitList)
           this.expandedKeys = [this.unitList[0].id]
-          this.getUser('') // 获取用户数据
+          this.companyId = serverDsv.params.companyId
+          this.getRole('') // 获取用户数据
         }).catch(error => {
-          this.$message.error('查询单位数据出错')
+          this.$message.error('查询部门单位出错')
         })
       }, 
-      getUser(){
+      getRole(){
         const serverDsv = this.getServerDsv()
         axios({
-          url: serverDsv.base + serverDsv.user,
+          url: serverDsv.base + serverDsv.role,
           method: 'get',
           params: {
-            companyId: serverDsv.params.companyId,
-            path: this.path,
+            companyId: this.companyId,
             name: this.searchValue,
-            pageNo: this.pageNo,
-            pageSize: this.pageSize
           }
         }).then(res => {
           if (!!res.data.code) {
-            this.$message.error('没有查询到用户数据')
+            this.$message.error('没有查询到角色数据')
             return
           }
-          this.userList = res.data.data.list
-          this.userTotal = res.data.data.totalCount
+          this.roleList = res.data.data
         }).catch(error => {
-          this.$message.error('查询用户数据出错')
+          this.$message.error('查询角色数据出错')
         })
       },
-      searchUser() {
+      searchRole() {
         this.pageNo = 1
-        this.getUser()
+        this.getRole()
       },
-      selectUserOne(user) {
+      selectOne(role) {
         this.fieldModel = [{
-          id: user.id,
-          username: user.username,
-          loginname: user.loginname
+          id: role.id,
+          name: role.name,
+          code: role.code
         }]
         this.showDialog = false
       },
-      selectUserMore(){
-        if(this.selectUsers.length<1){
-          this.$message.error('请选择用户')
+      selectMore(){
+        if(this.selectRoles.length<1){
+          this.$message.error('请选择角色')
           return
         }
-        this.fieldModel.push(...this.selectUsers.map(obj => {
+        this.fieldModel.push(...this.selectRoles.map(obj => {
           return {
             id: obj.id,
-            username: obj.username,
-            loginname: obj.loginname
+            name: obj.name,
+            code: obj.code,
           }
         }))
         this.showDialog = false
       },
       handleNodeClick(data) {
-        this.path = data.path
-        this.getUser()
+        this.companyId = data.id
+        this.getRole()
       },
     }
   }

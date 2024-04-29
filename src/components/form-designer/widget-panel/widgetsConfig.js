@@ -931,7 +931,7 @@ export const systemFields = [
       labelHidden: false,
       columnWidth: '200px',
       //-------------------
-      closable: true,
+      clearable: true,
       multiple: false,
       permission: 'none',//member-成员 owner-拥有者 none-无
     },
@@ -948,31 +948,9 @@ export const systemFields = [
       labelWidth: null,
       labelHidden: false,
       columnWidth: '200px',
-      disabled: false,
-      hidden: false,
-      required: false,
-      requiredHint: '',
-      customRule: '',
-      customRuleHint: '',
-      appendButton: true,
-      appendButtonDisabled: false,
-      buttonIcon: 'unit',
-      //-------------------
-      permission: 'owner',//member-成员 owner-拥有者 none-无
-      //-------------------
-      customClass: '',  //自定义css类名
-      labelIconClass: null,
-      labelIconPosition: 'rear',
-      labelTooltip: null,
-      //-------------------
-      onCreated: '',
-      onMounted: '',
-      onBeforeUpload: '',
-      onUploadSuccess: '',
-      onUploadError: '',
-      onFileRemove: '',
-      onValidate: '',
-      //onFileChange: '',
+      clearable: true,
+      multiple: false,
+      permission: 'none', //member-成员 owner-拥有者 none-无
     },
 
   },
@@ -987,31 +965,9 @@ export const systemFields = [
       labelWidth: null,
       labelHidden: false,
       columnWidth: '200px',
-      disabled: false,
-      hidden: false,
-      required: false,
-      requiredHint: '',
-      customRule: '',
-      customRuleHint: '',
-      appendButton: true,
-      appendButtonDisabled: false,
-      buttonIcon: 'role',
-      //-------------------
-      permission: 'owner',//member-成员 owner-拥有者 none-无
-      //-------------------
-      customClass: '',  //自定义css类名
-      labelIconClass: null,
-      labelIconPosition: 'rear',
-      labelTooltip: null,
-      //-------------------
-      onCreated: '',
-      onMounted: '',
-      onBeforeUpload: '',
-      onUploadSuccess: '',
-      onUploadError: '',
-      onFileRemove: '',
-      onValidate: '',
-      //onFileChange: '',
+      clearable: true,
+      multiple: false,
+      permission: 'none',//member-成员 owner-拥有者 none-无
     },
 
   },

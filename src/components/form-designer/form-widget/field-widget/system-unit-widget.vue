@@ -3,61 +3,52 @@
                      :parent-widget="parentWidget" :parent-list="parentList" :index-of-parent-list="indexOfParentList"
                      :sub-form-row-index="subFormRowIndex" :sub-form-col-index="subFormColIndex" :sub-form-row-id="subFormRowId">
     
-    <el-tag v-for="(obj,idx) in fieldModel" :key="'user_'+idx" style="margin: 0 5px;" type="primary" :closable="field.options.clearable" @close="removeUser(obj)">
-      {{ obj.username }}
+    <el-tag v-for="(obj,idx) in fieldModel" :key="'role_'+idx" style="margin: 0 5px;" type="primary" :closable="field.options.clearable" @close="removeRole(obj)">
+      {{ obj.name }}
     </el-tag> 
     <el-button style="margin: 0 5px;"  v-if="field.options.multiple || (!field.options.multiple && fieldModel.length<1)" type="info" text @click="showDialogSelect">
       <el-icon color="#409efc" class="no-inherit">
         <CirclePlus />
       </el-icon>
     </el-button>
-    <el-dialog v-model="showDialog" width="60%">
-      <el-container>
-        <el-aside width="220px" style="border-right: 1px solid #dcdfe6;">
-          <el-tree style="padding: 5px;" :default-expanded-keys="expandedKeys"
-          node-key="id"
-:data="unitTree" :props="{ label: 'name', children: 'children' }"
-                        :expand-on-click-node="false" ref="unitTreeRef"
-                        highlight-current @node-click="handleNodeClick">
-                        <template #default="{ node, data }">
-                            <el-icon v-if="data.type && data.type.value === 'GROUP'" class="no-inherit">
-                              <HomeFilled />
-                            </el-icon>
-                            <el-icon v-if="data.type && data.type.value === 'COMPANY'" class="no-inherit">
-                              <HomeFilled />
-                            </el-icon>
-                            {{ data.name }}
-                        </template>
-                    </el-tree>
-        </el-aside>
-        <el-main>
+    <el-dialog v-model="showDialog" width="50%">
+      
           <el-row>
-            <el-input v-model="searchValue" placeholder="请输入名称或用户名" clearable>
+            <el-input v-model="searchValue" placeholder="请输入单位名称" clearable>
               <template #append>
-                <el-button @click="searchUser" icon="el-icon-search"></el-button>
+                <el-button @click="searchUnit" icon="el-icon-search"></el-button>
               </template>
             </el-input>
           </el-row>
-          <el-table :data="userList" stripe border @selection-change="handleSelectionChange">
+          <el-table :data="unitTree" row-key="id"
+            :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+            stripe border @selection-change="handleSelectionChange">
             <el-table-column v-if="field.options.multiple==true" type="selection" width="55"></el-table-column>
-            <el-table-column prop="username" label="名称"></el-table-column>
-            <el-table-column prop="loginname" label="用户名"></el-table-column>
+            <el-table-column prop="name" label="单位名称">
+              <template #default="{ row }">
+                <el-icon v-if="row.type && row.type.value === 'GROUP'" class="no-inherit">
+                              <HomeFilled />
+                   </el-icon>
+                <el-icon v-if="row.type && row.type.value === 'COMPANY'" class="no-inherit">
+                  <HomeFilled />
+                </el-icon>
+                {{ row.name }}
+              </template>
+            </el-table-column>
+            <el-table-column prop="type" label="单位类型">
+              <template #default="{ row }">
+                {{ row.type?.text }}
+              </template>
+            </el-table-column>
             <el-table-column v-if="field.options.multiple==false" label="操作" align="center">
               <template #default="{ row }">
-                <el-button text type="primary" @click="selectUserOne(row)">选中</el-button>
+                <el-button text type="primary" @click="selectOne(row)">选中</el-button>
               </template>
             </el-table-column>
           </el-table>
-          <el-row style="text-align: right;">
-            <el-pagination style="padding: 5px 0;margin-right: 20px;" v-model:current-page="pageNo" 
-          v-model:page-size="pageSize" :total="userTotal" layout="total, prev, pager, next"
-          @change="getUser"
-          ></el-pagination>
-            <el-button style="margin: 5px 0;" v-if="field.options.multiple==true" type="primary" @click="selectUserMore">选择</el-button>
+          <el-row style="text-align: right;" v-if="field.options.multiple==true" >
+            <el-button style="margin: 5px 0;" type="primary" @click="selectMore">选择</el-button>
           </el-row>
-    
-        </el-main>
-      </el-container>
     </el-dialog>
   </form-item-wrapper>
 </template>
@@ -72,7 +63,7 @@
   import axios from 'axios'
 
   export default {
-    name: "system-user-widget",
+    name: "system-unit-widget",
     componentName: 'FieldWidget',  //必须固定为FieldWidget，用于接收父级组件的broadcast事件
     mixins: [emitter, fieldMixin, i18n],
     props: {
@@ -114,13 +105,10 @@
         expandedKeys: [],
         unitList: [],
         unitTree: [],
-        userList: [],
-        userTotal: 0,
-        pageNo: 1,
-        pageSize: 10,
+        roleList: [],
         searchValue: '',
-        path: '',
-        selectUsers: []
+        selectUnits: [],
+        companyId: ''
       }
     },
     computed: {
@@ -160,20 +148,26 @@
 
     methods: {
       handleSelectionChange(data) {
-        this.selectUsers = data
+        this.selectUnits = data
       },
-      removeUser(user) {
-        // 从fieldModel删除user
-        this.fieldModel = this.fieldModel.filter(obj => obj.id !== user.id)
+      removeRole(role) {
+        // 从fieldModel删除
+        this.fieldModel = this.fieldModel.filter(obj => obj.id !== role.id)
       },
       showDialogSelect() {
         this.showDialog = true
-        const serverDsv = this.getServerDsv()
         // 获取单位部门数据
+        this.searchUnit()
+      }, 
+      searchUnit() {
+        const serverDsv = this.getServerDsv()
         axios({
           url: serverDsv.base + serverDsv.unit,
           method: 'get',
-          params: serverDsv.params
+          params: {
+            companyId: serverDsv.params.companyId,
+            name: this.searchValue
+          }
         }).then(res => {
           if (!!res.data.code) {
             this.$message.error('没有查询到单位数据')
@@ -181,64 +175,31 @@
           }
           this.unitList = res.data.data
           this.unitTree = handleTree(this.unitList)
-          this.expandedKeys = [this.unitList[0].id]
-          this.getUser('') // 获取用户数据
         }).catch(error => {
-          this.$message.error('查询单位数据出错')
-        })
-      }, 
-      getUser(){
-        const serverDsv = this.getServerDsv()
-        axios({
-          url: serverDsv.base + serverDsv.user,
-          method: 'get',
-          params: {
-            companyId: serverDsv.params.companyId,
-            path: this.path,
-            name: this.searchValue,
-            pageNo: this.pageNo,
-            pageSize: this.pageSize
-          }
-        }).then(res => {
-          if (!!res.data.code) {
-            this.$message.error('没有查询到用户数据')
-            return
-          }
-          this.userList = res.data.data.list
-          this.userTotal = res.data.data.totalCount
-        }).catch(error => {
-          this.$message.error('查询用户数据出错')
+          this.$message.error('查询部门单位出错')
         })
       },
-      searchUser() {
-        this.pageNo = 1
-        this.getUser()
-      },
-      selectUserOne(user) {
+      selectOne(unit) {
         this.fieldModel = [{
-          id: user.id,
-          username: user.username,
-          loginname: user.loginname
+          id: unit.id,
+          name: unit.name,
+          path: unit.path
         }]
         this.showDialog = false
       },
-      selectUserMore(){
-        if(this.selectUsers.length<1){
-          this.$message.error('请选择用户')
+      selectMore(){
+        if(this.selectUnits.length<1){
+          this.$message.error('请选择单位')
           return
         }
-        this.fieldModel.push(...this.selectUsers.map(obj => {
+        this.fieldModel.push(...this.selectUnits.map(obj => {
           return {
             id: obj.id,
-            username: obj.username,
-            loginname: obj.loginname
+            name: obj.name,
+            path: obj.path,
           }
         }))
         this.showDialog = false
-      },
-      handleNodeClick(data) {
-        this.path = data.path
-        this.getUser()
       },
     }
   }
