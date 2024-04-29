@@ -84,6 +84,7 @@
             languageMenu: false,  //是否显示语言切换菜单
             externalLink: false,  //是否显示GitHub、文档等外部链接
             formTemplates: [],  //表单模板配置
+            uploadHeaders: {},  //上传文件的请求头
             eventCollapse: true,  //是否显示组件事件属性折叠面板
             widgetNameReadonly: false,  //禁止修改组件名称
 

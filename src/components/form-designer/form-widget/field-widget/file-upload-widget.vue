@@ -77,8 +77,10 @@
       SvgIcon,
       FormItemWrapper,
     },
+    inject: ['getDesignerConfig'],
     data() {
       return {
+        designerConfig: this.getDesignerConfig(),
         oldFieldValue: null, //field组件change之前的值
         fieldModel: [],
         rules: [],
@@ -117,6 +119,10 @@
     },
 
     created() {
+      // 合并uploadHeaders的值
+      if (!!this.designerConfig.uploadHeaders) {
+        this.uploadHeaders = Object.assign({}, this.designerConfig.uploadHeaders)
+      }
       /* 注意：子组件mounted在父组件created之后、父组件mounted之前触发，故子组件mounted需要用到的prop
          需要在父组件created中初始化！！ */
       this.initFieldModel()

@@ -1,8 +1,9 @@
 {
   "name": "budwk-vform3",
-  "version": "3.0.10",
+  "version": "1.0.0",
   "private": false,
   "scripts": {
+    "dev": "vite",
     "serve": "vite",
     "build": "vite build",
     "lib": "vite build --config vite-lib.config.js",
