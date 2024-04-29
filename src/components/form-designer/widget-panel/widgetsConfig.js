@@ -918,6 +918,117 @@ export const advancedFields = [
 
 ]
 
+export const systemFields = [
+  {
+    type: 'system-user',
+    icon: 'user',
+    formItemFlag: true,
+    options: {
+      name: '',
+      label: '',
+      labelAlign: '',
+      labelWidth: null,
+      labelHidden: false,
+      columnWidth: '200px',
+      disabled: false,
+      hidden: false,
+      required: false,
+      requiredHint: '',
+      customRule: '',
+      customRuleHint: '',
+      //-------------------
+      permission: 'owner',//member-成员 owner-拥有者 none-无
+      //-------------------
+      customClass: '',  //自定义css类名
+      labelIconClass: null,
+      labelIconPosition: 'rear',
+      labelTooltip: null,
+      //-------------------
+      onCreated: '',
+      onMounted: '',
+      onBeforeUpload: '',
+      onUploadSuccess: '',
+      onUploadError: '',
+      onFileRemove: '',
+      onValidate: '',
+      //onFileChange: '',
+    },
+
+  },
+  {
+    type: 'system-unit',
+    icon: 'unit',
+    formItemFlag: true,
+    options: {
+      name: '',
+      label: '',
+      labelAlign: '',
+      labelWidth: null,
+      labelHidden: false,
+      columnWidth: '200px',
+      disabled: false,
+      hidden: false,
+      required: false,
+      requiredHint: '',
+      customRule: '',
+      customRuleHint: '',
+      //-------------------
+      permission: 'owner',//member-成员 owner-拥有者 none-无
+      //-------------------
+      customClass: '',  //自定义css类名
+      labelIconClass: null,
+      labelIconPosition: 'rear',
+      labelTooltip: null,
+      //-------------------
+      onCreated: '',
+      onMounted: '',
+      onBeforeUpload: '',
+      onUploadSuccess: '',
+      onUploadError: '',
+      onFileRemove: '',
+      onValidate: '',
+      //onFileChange: '',
+    },
+
+  },
+  {
+    type: 'system-role',
+    icon: 'role',
+    formItemFlag: true,
+    options: {
+      name: '',
+      label: '',
+      labelAlign: '',
+      labelWidth: null,
+      labelHidden: false,
+      columnWidth: '200px',
+      disabled: false,
+      hidden: false,
+      required: false,
+      requiredHint: '',
+      customRule: '',
+      customRuleHint: '',
+      //-------------------
+      permission: 'owner',//member-成员 owner-拥有者 none-无
+      //-------------------
+      customClass: '',  //自定义css类名
+      labelIconClass: null,
+      labelIconPosition: 'rear',
+      labelTooltip: null,
+      //-------------------
+      onCreated: '',
+      onMounted: '',
+      onBeforeUpload: '',
+      onUploadSuccess: '',
+      onUploadError: '',
+      onFileRemove: '',
+      onValidate: '',
+      //onFileChange: '',
+    },
+
+  },
+]
+
 export const customFields = [
 
 ]
@@ -933,6 +1044,11 @@ export function addBasicFieldSchema(fieldSchema) {
 export function addAdvancedFieldSchema(fieldSchema) {
   advancedFields.push(fieldSchema)
 }
+
+export function addSystemFieldSchema(widgetSchema) {
+  systemFields.push(widgetSchema)
+}
+
 
 export function addCustomWidgetSchema(widgetSchema) {
   customFields.push(widgetSchema)

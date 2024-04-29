@@ -18,6 +18,7 @@ export default {
     dragAction: '拖动',
     basicFieldTitle: '基础字段',
     advancedFieldTitle: '高级字段',
+    systemFieldTitle: '系统字段',
     customFieldTitle: '自定义扩展字段',
 
     noWidgetHint: '请从左侧列表中选择一个组件, 然后用鼠标拖动组件放置于此处.',
@@ -57,7 +58,9 @@ export default {
       'rich-editor':    '富文本',
       cascader:         '级联选择',
       slot:             '插槽',
-
+      'system-user':    '用户组件',
+      'system-unit':    '部门组件',
+      'system-role':    '角色组件',
       custom:           'Custom Component',
     },
 

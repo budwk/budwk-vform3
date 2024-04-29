@@ -18,6 +18,7 @@ export default {
     dragAction: 'drag',
     basicFieldTitle: 'Basic Field',
     advancedFieldTitle: 'Advanced Field',
+    systemFieldTitle: 'System Field',
     customFieldTitle: 'Customized Field',
 
     noWidgetHint: 'Please select a widget from the left list, drag and drop to this container.',
@@ -57,7 +58,9 @@ export default {
       'rich-editor':    'Rich Editor',
       cascader:         'Cascader',
       slot:             'Slot',
-
+      'system-user':    'User',
+      'system-unit':    'Unit',
+      'system-role':    'Role',
       custom:           'Custom Component',
     },
 

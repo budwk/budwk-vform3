@@ -45,7 +45,20 @@
           </draggable>
         </el-collapse-item>
 
-        <el-collapse-item name="4" :title="i18nt('designer.customFieldTitle')">
+        <el-collapse-item name="4" :title="i18nt('designer.systemFieldTitle')">
+          <draggable tag="ul" :list="systemFields" item-key="key" :group="{name: 'dragGroup', pull: 'clone', put: false}"
+                     :move="checkFieldMove"
+                     :clone="handleFieldWidgetClone" ghost-class="ghost" :sort="false">
+            <template #item="{ element: fld }">
+              <li class="field-widget-item" :title="fld.displayName" @dblclick="addFieldByDbClick(fld)">
+                <span>
+                  <svg-icon :icon-class="fld.icon" class-name="color-svg-icon" />{{i18n2t(`designer.widgetLabel.${fld.type}`, `extension.widgetLabel.${fld.type}`)}}</span>
+              </li>
+            </template>
+          </draggable>
+        </el-collapse-item>
+
+        <el-collapse-item name="5" :title="i18nt('designer.customFieldTitle')">
           <draggable tag="ul" :list="customFields" item-key="key" :group="{name: 'dragGroup', pull: 'clone', put: false}"
                      :move="checkFieldMove"
                      :clone="handleFieldWidgetClone" ghost-class="ghost" :sort="false">
@@ -91,7 +104,7 @@
 </template>
 
 <script>
-  import {containers as CONS, basicFields as BFS, advancedFields as AFS, customFields as CFS} from "./widgetsConfig"
+  import {containers as CONS, basicFields as BFS, advancedFields as AFS, systemFields as SYS, customFields as CFS} from "./widgetsConfig"
   import {addWindowResizeHandler, generateId} from "@/utils/util"
   import i18n from "@/utils/i18n"
   import axios from 'axios'
@@ -124,7 +137,7 @@
 
         scrollerHeight: 0,
 
-        activeNames: ['1', '2', '3', '4'],
+        activeNames: ['1', '2', '3', '4', '5'],
 
         containers: [],
         basicFields: [],
@@ -200,6 +213,16 @@
         })
 
         this.advancedFields = AFS.map(fld => {
+          return {
+            key: generateId(),
+            ...fld,
+            displayName: this.i18n2t(`designer.widgetLabel.${fld.type}`, `extension.widgetLabel.${fld.type}`)
+          }
+        }).filter(fld => {
+          return !this.isBanned(fld.type)
+        })
+
+        this.systemFields = SYS.map(fld => {
           return {
             key: generateId(),
             ...fld,
