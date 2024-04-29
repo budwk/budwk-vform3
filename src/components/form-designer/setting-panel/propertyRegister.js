@@ -47,6 +47,7 @@ const COMMON_PROPERTIES = {
   'checkStrictly'     :            'checkStrictly-editor',
   'showAllLevels'     :            'showAllLevels-editor',
   'multiple'          :            'multiple-editor',
+  'permission'        :            'permission-editor',
   'multipleLimit'     :            'multipleLimit-editor',
   'contentPosition'   :            'contentPosition-editor',
   'optionItems'       :            'optionItems-editor',

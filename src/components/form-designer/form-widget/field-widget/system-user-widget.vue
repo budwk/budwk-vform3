@@ -139,7 +139,6 @@ import path from 'path';
     },
 
     created() {
-      console.log(this.field)
       /* 注意：子组件mounted在父组件created之后、父组件mounted之前触发，故子组件mounted需要用到的prop
          需要在父组件created中初始化！！ */
       this.initFieldModel()
@@ -171,8 +170,6 @@ import path from 'path';
       showDialogSelect() {
         this.showDialog = true
         const serverDsv = this.getServerDsv()
-        console.log('base', serverDsv.base)
-        console.log('user', serverDsv.user)
         // 获取单位部门数据
         axios({
           url: serverDsv.base + serverDsv.unit,
@@ -244,10 +241,6 @@ import path from 'path';
         this.path = data.path
         this.getUser()
       },
-      buttonClick() {
-        console.log('buttonClick')
-      },
-
     }
   }
 </script>

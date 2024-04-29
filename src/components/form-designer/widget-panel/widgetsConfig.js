@@ -930,26 +930,10 @@ export const systemFields = [
       labelWidth: null,
       labelHidden: false,
       columnWidth: '200px',
-      disabled: false,
-      readonly: true,
-      hidden: false,
-      required: false,
-      requiredHint: '',
-      customRule: '',
-      customRuleHint: '',
       //-------------------
       closable: true,
-      multiple: true,
-      permission: 'owner',//member-成员 owner-拥有者 none-无
-      //-------------------
-      customClass: '',  //自定义css类名
-      labelIconClass: null,
-      labelIconPosition: 'rear',
-      labelTooltip: null,
-      //-------------------
-      onCreated: '',
-      onMounted: '',
-      onValidate: '',
+      multiple: false,
+      permission: 'none',//member-成员 owner-拥有者 none-无
     },
 
   },
