@@ -65,11 +65,11 @@ npm run lib-render
 
 #### 1. 安装包
 ```bash
-npm i vform3-builds
+npm i budwk-vform3
 ```
 或
 ```bash
-yarn add vform3-builds
+yarn add budwk-vform3
 ```
 
 <br/>
@@ -82,8 +82,8 @@ import App from './App.vue'
 import ElementPlus from 'element-plus'  //引入element-plus库
 import 'element-plus/dist/index.css'  //引入element-plus样式
 
-import VForm3 from 'vform3-builds'  //引入VForm 3库
-import 'vform3-builds/dist/designer.style.css'  //引入VForm3样式
+import VForm3 from 'budwk-vform3'  //引入VForm 3库
+import 'budwk-vform3/dist/designer.style.css'  //引入VForm3样式
 
 const app = createApp(App)
 app.use(ElementPlus)  //全局注册element-plus
