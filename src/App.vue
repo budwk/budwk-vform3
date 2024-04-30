@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <VFormDesigner ref="vfDesignerRef" :field-list-api="fieldListApi" :server-dsv="serverDsv" :designerConfig="{
+    <VFormDesigner ref="vfDesignerRef" :server-dsv="serverDsv" :designerConfig="{
       formTemplates: formTemplates,
     }">
       <!--
@@ -22,14 +22,15 @@ export default {
   },
   data() {
     return {
-      //后台服务配置(查询用户/角色/部门)
+      //后台服务配置(查询用户/角色/部门等)
       serverDsv: {
         base: 'http://127.0.0.1:9912/office',
-        user: '/pub/data/user/list',
-        unit: '/pub/data/unit/list',
-        role: '/pub/data/role/list',
-        file: '/pub/upload/file',
-        image: '/pub/upload/image',
+        user: '/pub/data/user/list',  //查询用户
+        unit: '/pub/data/unit/list',  //查询单位部门
+        role: '/pub/data/role/list',  //查询角色
+        file: '/pub/upload/file',     //文件上传
+        image: '/pub/upload/image',   //图片上传
+        field: '/pub/data/field/1',    //查询表字段+表单id
         headers: {
           'X-Token': ''
         },
@@ -37,13 +38,7 @@ export default {
           'companyId': ''
         }
       },
-      fieldListApi: {
-        url: 'http://127.0.0.1:9912/office/pub/data/field/1',
-        headers: {
-          'X-Token': ''
-        },
-      },
-      /*
+      /* filed 返回数据格式
           {
           "code": 0,
           "msg": "操作成功",

@@ -65,12 +65,6 @@
       VFormWidget,
     },
     props: {
-      /* 后端字段列表API */
-      fieldListApi: {
-        type: Object,
-        default: null,
-      },
-
       /* 禁止显示的组件名称数组 */
       bannedWidgets: {
         type: Array,
@@ -227,14 +221,18 @@
       },
 
       loadFieldListFromServer() {
-        if (!this.fieldListApi) {
+        if (!this.serverDsv.field) {
           return
         }
 
-        let headers = this.fieldListApi.headers || {}
-        axios.get(this.fieldListApi.url, {'headers': headers}).then(res => {
-          let labelKey = this.fieldListApi.labelKey || 'code'
-          let nameKey = this.fieldListApi.nameKey || 'name'
+        axios({
+          url: this.serverDsv.base + this.serverDsv.field,
+          method: 'get',
+          headers: this.serverDsv.headers,
+          params: this.serverDsv.params
+        }).then(res => {
+          let labelKey = 'code'
+          let nameKey = 'name'
 
           this.fieldList.splice(0, this.fieldList.length)  //清空已有
           if(res.data.code==0){
