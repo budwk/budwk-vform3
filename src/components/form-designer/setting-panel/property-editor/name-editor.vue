@@ -12,7 +12,7 @@
     <template v-else>
       <el-select v-model="optionModel.name" allow-create filterable :disabled="widgetNameReadonly" @change="updateWidgetNameAndRef"
                  :title="i18nt('designer.setting.editNameHelp')">
-        <el-option v-for="(sf, sfIdx) in serverFieldList" :key="sfIdx" :label="sf.label" :value="sf.name"></el-option>
+        <el-option v-for="(sf, sfIdx) in serverFieldList" :key="sfIdx" :label="sf.name+'('+sf.code+')'" :value="sf.code"></el-option>
       </el-select>
     </template>
   </el-form-item>
@@ -79,7 +79,7 @@
       getLabelByFieldName(fieldName) {
         for (let i = 0; i < this.serverFieldList.length; i++) {
           if (this.serverFieldList[i].name === fieldName) {
-            return this.serverFieldList[i].label
+            return this.serverFieldList[i].code
           }
         }
 

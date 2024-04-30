@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <VFormDesigner ref="vfDesignerRef" :global-dsv="globalDsv" :server-dsv="serverDsv" :designerConfig="{
+    <VFormDesigner ref="vfDesignerRef" :field-list-api="fieldListApi" :server-dsv="serverDsv" :designerConfig="{
       formTemplates: formTemplates,
     }">
       <!--
@@ -22,11 +22,6 @@ export default {
   },
   data() {
     return {
-      //全局数据源变量
-      globalDsv: {
-        testApiHost: 'http://127.0.0.1:9912/office',
-        testPort: 8080,
-      },
       //后台服务配置(查询用户/角色/部门)
       serverDsv: {
         base: 'http://127.0.0.1:9912/office',
@@ -42,6 +37,29 @@ export default {
           'companyId': ''
         }
       },
+      fieldListApi: {
+        url: 'http://127.0.0.1:9912/office/pub/data/field/1',
+        headers: {
+          'X-Token': ''
+        },
+      },
+      /*
+          {
+          "code": 0,
+          "msg": "操作成功",
+          "time": 1714448941456,
+          "data": [
+              {
+                  "code": "name",
+                  "name": "姓名"
+              },
+              {
+                  "code": "age",
+                  "name": "年龄"
+              }
+          ]
+      }
+      */
       formTemplates:  [
             {
               title: '单列表单',

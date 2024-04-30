@@ -232,17 +232,19 @@
         }
 
         let headers = this.fieldListApi.headers || {}
-        axios.get(this.fieldListApi.URL, {'headers': headers}).then(res => {
-          let labelKey = this.fieldListApi.labelKey || 'label'
+        axios.get(this.fieldListApi.url, {'headers': headers}).then(res => {
+          let labelKey = this.fieldListApi.labelKey || 'code'
           let nameKey = this.fieldListApi.nameKey || 'name'
 
           this.fieldList.splice(0, this.fieldList.length)  //清空已有
-          res.data.forEach(fieldItem => {
-            this.fieldList.push({
-              label: fieldItem[labelKey],
-              name: fieldItem[nameKey]
+          if(res.data.code==0){
+            res.data.data.forEach(fieldItem => {
+              this.fieldList.push({
+                code: fieldItem[labelKey],
+                name: fieldItem[nameKey]
+              })
             })
-          })
+          }
         }).catch(error => {
           this.$message.error(error)
         })
