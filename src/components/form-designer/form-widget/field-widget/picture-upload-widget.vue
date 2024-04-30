@@ -123,13 +123,7 @@
       },
 
       realUploadURL() {
-        let uploadURL = this.field.options.uploadURL
-        if (!!uploadURL && ((uploadURL.indexOf('DSV.') > -1) || (uploadURL.indexOf('DSV[') > -1))) {
-          let DSV = this.getGlobalDsv()
-          console.log('test DSV: ', DSV)  //防止DSV被打包工具优化！！！
-          return evalFn(this.field.options.uploadURL, DSV)
-        }
-
+        this.field.options.uploadURL = this.field.options.uploadURL || this.getServerDsv().base + this.getServerDsv().image
         return this.field.options.uploadURL
       },
 
@@ -139,10 +133,8 @@
     },
 
     created() {
-      console.log(this.designerConfig)
-      // 合并uploadHeaders的值
-      if (!!this.designerConfig.uploadHeaders) {
-        this.uploadHeaders = Object.assign({}, this.designerConfig.uploadHeaders)
+      if (this.getServerDsv().headers) {
+        this.uploadHeaders = this.getServerDsv().headers
       }
       /* 注意：子组件mounted在父组件created之后、父组件mounted之前触发，故子组件mounted需要用到的prop
          需要在父组件created中初始化！！ */

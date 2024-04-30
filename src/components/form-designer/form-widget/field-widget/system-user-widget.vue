@@ -3,10 +3,10 @@
                      :parent-widget="parentWidget" :parent-list="parentList" :index-of-parent-list="indexOfParentList"
                      :sub-form-row-index="subFormRowIndex" :sub-form-col-index="subFormColIndex" :sub-form-row-id="subFormRowId">
     
-    <el-tag v-for="(obj,idx) in fieldModel" :key="'user_'+idx" style="margin: 0 5px;" type="primary" :closable="field.options.clearable" @close="removeUser(obj)">
+    <el-tag v-for="(obj,idx) in fieldModel" :key="'user_'+idx" style="margin: 0 5px;" type="primary" :closable="field.options.clearable && !field.options.disabled" @close="removeUser(obj)">
       {{ obj.username }}
     </el-tag> 
-    <el-button style="margin: 0 5px;"  v-if="field.options.multiple || (!field.options.multiple && fieldModel.length<1)" type="info" text @click="showDialogSelect">
+    <el-button style="margin: 0 5px;"  v-if="!field.options.disabled && (field.options.multiple || (!field.options.multiple && fieldModel.length<1))" type="info" text @click="showDialogSelect">
       <el-icon color="#409efc" class="no-inherit">
         <CirclePlus />
       </el-icon>

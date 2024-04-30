@@ -930,6 +930,7 @@ export const systemFields = [
       labelWidth: null,
       labelHidden: false,
       columnWidth: '200px',
+      disabled: false,
       //-------------------
       clearable: true,
       multiple: false,
@@ -948,6 +949,7 @@ export const systemFields = [
       labelWidth: null,
       labelHidden: false,
       columnWidth: '200px',
+      disabled: false,
       clearable: true,
       multiple: false,
       permission: 'none', //member-成员 owner-拥有者 none-无
@@ -965,6 +967,7 @@ export const systemFields = [
       labelWidth: null,
       labelHidden: false,
       columnWidth: '200px',
+      disabled: false,
       clearable: true,
       multiple: false,
       permission: 'none',//member-成员 owner-拥有者 none-无
