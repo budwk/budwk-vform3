@@ -57,6 +57,13 @@ npm run lib
 npm run lib-render
 ```
 
+### 发布
+* 将上面两步打包的文件放到 `deploy/dist` 下
+```
+cd deploy
+npm publish
+```
+
 ### 浏览器兼容性
 ```Chrome（及同内核的浏览器如QQ浏览器、360浏览器等等），Firefox，Safari```
 

@@ -932,6 +932,11 @@ export const systemFields = [
       columnWidth: '200px',
       disabled: false,
       //-------------------
+      customClass: '',  //自定义css类名
+      labelIconClass: null,
+      labelIconPosition: 'rear',
+      labelTooltip: null,
+      //-------------------
       clearable: true,
       multiple: false,
       permission: 'none',//member-成员 owner-拥有者 none-无
@@ -949,6 +954,11 @@ export const systemFields = [
       labelWidth: null,
       labelHidden: false,
       columnWidth: '200px',
+      //-------------------
+      customClass: '',  //自定义css类名
+      labelIconClass: null,
+      labelIconPosition: 'rear',
+      labelTooltip: null,
       disabled: false,
       clearable: true,
       multiple: false,
@@ -967,6 +977,11 @@ export const systemFields = [
       labelWidth: null,
       labelHidden: false,
       columnWidth: '200px',
+      //-------------------
+      customClass: '',  //自定义css类名
+      labelIconClass: null,
+      labelIconPosition: 'rear',
+      labelTooltip: null,
       disabled: false,
       clearable: true,
       multiple: false,

@@ -4,19 +4,20 @@
                      :sub-form-row-index="subFormRowIndex" :sub-form-col-index="subFormColIndex" :sub-form-row-id="subFormRowId">
     <!-- el-upload增加:name="field.options.name"后，会导致又拍云上传失败！故删除之！！ -->
     <el-upload ref="fieldEditor" :disabled="field.options.disabled"
-               :style="styleVariables" class="dynamicPseudoAfter"
+               :style="styleVariables" 
                :action="realUploadURL" :headers="uploadHeaders" :data="uploadData"
                :with-credentials="field.options.withCredentials"
                :multiple="field.options.multipleSelect" :file-list="fileList"
-               :show-file-list="field.options.showFileList" :class="{'hideUploadDiv': uploadBtnHidden}"
+               :show-file-list="field.options.showFileList"
+              :class="{'hideUploadDiv': field.options.disabled||uploadBtnHidden,'dynamicPseudoAfter':true}"
                :limit="field.options.limit" :on-exceed="handleFileExceed" :before-upload="beforeFileUpload"
                :on-success="handleFileUpload" :on-error="handleUploadError">
       <template #tip>
         <div class="el-upload__tip"
-             v-if="!!field.options.uploadTip">{{field.options.uploadTip}}</div>
+             v-if="!!field.options.uploadTip && !field.options.disabled">{{field.options.uploadTip}}</div>
       </template>
       <template #default>
-        <svg-icon icon-class="el-plus" /><i class="el-icon-plus avatar-uploader-icon"></i>
+        <svg-icon icon-class="el-plus" v-if="!field.options.disabled"/><i class="el-icon-plus avatar-uploader-icon"></i>
       </template>
       <template #file="{ file }">
         <div class="upload-file-list">
@@ -77,12 +78,10 @@
       SvgIcon,
       FormItemWrapper,
     },
-    inject: ['getDesignerConfig'],
     data() {
       return {
-        designerConfig: this.getDesignerConfig(),
         oldFieldValue: null, //field组件change之前的值
-        fieldModel: [],
+        fieldModel: null,  //field组件的值
         rules: [],
 
         uploadHeaders: {},
@@ -187,19 +186,26 @@
 
       updateFieldModelAndEmitDataChangeForUpload(fileList, customResult, defaultResult) {
         let oldValue = deepClone(this.fieldModel)
+        let newFieldValue = []
         if (!!customResult && !!customResult.name && !!customResult.url) {
-          this.fieldModel.push({
+          newFieldValue.push({
             name: customResult.name,
             url: customResult.url
           })
         } else if (!!defaultResult && !!defaultResult.name && !!defaultResult.url) {
-          this.fieldModel.push({
+          newFieldValue.push({
             name: defaultResult.name,
             url: defaultResult.url
           })
+        } else if (!!defaultResult && defaultResult.code == 0) {
+          newFieldValue.push({
+            name: defaultResult.data.name,
+            url: defaultResult.data.url
+          })
         } else {
-          this.fieldModel = deepClone(fileList)
+          newFieldValue = deepClone(fileList)
         }
+        this.fieldModel = JSON.stringify(newFieldValue)
 
         this.syncUpdateFormModel(this.fieldModel)
         this.emitFieldDataChange(this.fieldModel, oldValue)
@@ -231,7 +237,10 @@
 
       updateFieldModelAndEmitDataChangeForRemove(deletedFileIdx, fileList) {
         let oldValue = deepClone(this.fieldModel)
-        this.fieldModel.splice(deletedFileIdx, 1)
+        let newFieldValue = JSON.parse(this.fieldModel)
+        newFieldValue.splice(deletedFileIdx, 1)
+        this.fieldModel = JSON.stringify(newFieldValue)
+
         this.syncUpdateFormModel(this.fieldModel)
         this.emitFieldDataChange(this.fieldModel, oldValue)
       },

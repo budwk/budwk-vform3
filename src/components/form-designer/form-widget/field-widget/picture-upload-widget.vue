@@ -7,12 +7,13 @@
                :action="realUploadURL" :headers="uploadHeaders" :data="uploadData"
                :with-credentials="field.options.withCredentials"
                :multiple="field.options.multipleSelect" :file-list="fileList" :show-file-list="field.options.showFileList"
-               list-type="picture-card" :class="{'hideUploadDiv': uploadBtnHidden}"
+               list-type="picture-card" :class="{'hideUploadDiv': field.options.disabled || uploadBtnHidden}"
                :limit="field.options.limit" :on-exceed="handlePictureExceed"
                :before-upload="beforePictureUpload" :on-preview="handlePictureCardPreview"
                :on-success="handlePictureUpload" :on-error="handleUploadError" >
       <template #file="{ file }">
         <el-image
+          
           ref="imageRef"
           style="width: 100%; height: 100%"
           :src="file.url"
@@ -45,7 +46,7 @@
       </template>
       <template #tip>
         <div class="el-upload__tip"
-             v-if="!!field.options.uploadTip">{{field.options.uploadTip}}</div>
+             v-if="!!field.options.uploadTip && !field.options.disabled">{{field.options.uploadTip}}</div>
       </template>
       <div class="uploader-icon"><svg-icon icon-class="el-plus" /></div>
     </el-upload>
@@ -94,12 +95,10 @@
       FormItemWrapper,
       SvgIcon,
     },
-    inject: ['getDesignerConfig'],
     data() {
       return {
-        designerConfig: this.getDesignerConfig(),
         oldFieldValue: null, //field组件change之前的值
-        fieldModel: [],
+        fieldModel: null,
         rules: [],
 
         uploadHeaders: {},
@@ -206,20 +205,26 @@
 
       updateFieldModelAndEmitDataChangeForUpload(fileList, customResult, defaultResult) {
         let oldValue = deepClone(this.fieldModel)
+        let newFieldValue = []
         if (!!customResult && !!customResult.name && !!customResult.url) {
-          this.fieldModel.push({
+          newFieldValue.push({
             name: customResult.name,
             url: customResult.url
           })
         } else if (!!defaultResult && !!defaultResult.name && !!defaultResult.url) {
-          this.fieldModel.push({
+          newFieldValue.push({
             name: defaultResult.name,
             url: defaultResult.url
           })
+        } else if (!!defaultResult && defaultResult.code == 0) {
+          newFieldValue.push({
+            name: defaultResult.data.name,
+            url: defaultResult.data.url
+          })
         } else {
-          this.fieldModel = deepClone(fileList)
+          newFieldValue = deepClone(fileList)
         }
-
+        this.fieldModel = JSON.stringify(newFieldValue)
         this.syncUpdateFormModel(this.fieldModel)
         this.emitFieldDataChange(this.fieldModel, oldValue)
       },
@@ -240,6 +245,7 @@
 
       updateFieldModelAndEmitDataChangeForRemove(file) {
         let oldValue = deepClone(this.fieldModel)
+        let newFieldValue = JSON.parse(this.fieldModel)
         let foundFileIdx = -1
         this.fileListBeforeRemove.map((fi, idx) => {  /* 跟element-ui不同，element-plus删除文件时this.fileList数组对应元素已被删除！！ */
           if ((fi.name === file.name) && ((fi.url === file.url) || (!!fi.uid && fi.uid === file.uid))) {  /* 这个判断有问题？？ */
@@ -247,9 +253,9 @@
           }
         })
         if (foundFileIdx > -1) {
-          this.fieldModel.splice(foundFileIdx, 1)
+          newFieldValue.splice(foundFileIdx, 1)
         }
-
+        this.fieldModel = JSON.stringify(newFieldValue)
         this.syncUpdateFormModel(this.fieldModel)
         this.emitFieldDataChange(this.fieldModel, oldValue)
       },
