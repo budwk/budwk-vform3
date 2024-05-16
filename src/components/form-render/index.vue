@@ -73,6 +73,10 @@
         type: Boolean,
         default: false
       },
+      previewDetail: { //是否表单查看状态
+        type: Boolean,
+        default: false
+      },
       globalDsv: { // 全局数据源变量
         type: Object,
         default: () => ({})
@@ -95,6 +99,7 @@
           formModel: this.formDataModel,
         },
         previewState: this.previewState,
+        previewDetail: this.previewDetail,
       }
     },
     data() {
@@ -540,6 +545,23 @@
         //   return this.formDataModel[subFormName]
         // }
         return foundSFRef.getSubFormValues(needValidation)
+      },
+
+      perviewForm() {
+        let wNameList = Object.keys(this.widgetRefList)
+        wNameList.forEach(wName => {
+          let foundW = this.getWidgetRef(wName)
+          if (!!foundW) {
+            if (!!foundW.widget && (foundW.widget.type === 'sub-form')) {
+              foundW.disableSubForm()
+            } else {
+              //!!foundW.setDisabled && foundW.setDisabled(true)
+              if (!!foundW.setDisabled) {
+                foundW.setPerview(true)
+              }
+            }
+          }
+        })
       },
 
       disableForm() {

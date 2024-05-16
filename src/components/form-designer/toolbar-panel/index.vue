@@ -50,7 +50,7 @@
                  :fullscreen="(layoutType === 'H5') || (layoutType === 'Pad')">
         <div>
           <div class="form-render-wrapper" :class="[layoutType === 'H5' ? 'h5-layout' : (layoutType === 'Pad' ? 'pad-layout' : '')]">
-            <VFormRender ref="preForm" :form-json="formJson" :form-data="testFormData" :preview-state="true"
+            <VFormRender ref="preForm" :form-json="formJson" :form-data="testFormData" :preview-state="true" :preview-detail="true"
                          :option-data="testOptionData" :global-dsv="designerDsv" :server-dsv="serverDsv" @myEmitTest="onMyEmitTest"
                          @appendButtonClick="testOnAppendButtonClick" @buttonClick="testOnButtonClick"
                          @formChange="handleFormChange">
@@ -631,7 +631,7 @@
       setFormDisabled() {
         this.$refs['preForm'].disableForm()
       },
-
+      
       setFormEnabled() {
         this.$refs['preForm'].enableForm()
       },

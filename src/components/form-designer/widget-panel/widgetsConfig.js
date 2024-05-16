@@ -115,6 +115,7 @@ export const basicFields = [
       labelHidden: false,
       readonly: false,
       disabled: false,
+      perview: false,
       hidden: false,
       clearable: true,
       showPassword: false,

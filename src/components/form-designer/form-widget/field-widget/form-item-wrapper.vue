@@ -14,7 +14,7 @@
                   :label="label" :label-width="labelWidth + 'px'"
                   :title="field.options.labelTooltip"
                   :rules="rules" :prop="getPropName()"
-                  :class="[selected ? 'selected' : '', labelAlign, customClass, field.options.required ? 'required' : '']"
+                  :class="[selected ? 'selected' : '', labelAlign, customClass, field.options.required && !previewDetail ? 'required' : '']"
                   @click.stop="selectField(field)">
 
       <template #label>
@@ -97,7 +97,7 @@
 
       rules: Array,
     },
-    inject: ['getFormConfig'],
+    inject: ['getFormConfig','previewDetail'],
     computed: {
       formConfig() {
         return this.getFormConfig()

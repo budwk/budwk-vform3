@@ -3,7 +3,7 @@ import FormValidators from '@/utils/validators'
 import eventBus from "@/utils/event-bus"
 
 export default {
-  inject: ['refList', 'getFormConfig', 'getGlobalDsv', 'getServerDsv', 'globalOptionData', 'globalModel', 'getOptionData'],
+  inject: ['refList', 'getFormConfig', 'getGlobalDsv', 'getServerDsv', 'globalOptionData', 'globalModel', 'getOptionData', 'previewDetail'],
 
   computed: {
     formConfig() {
@@ -198,7 +198,11 @@ export default {
     },
 
     buildFieldRules() {
+
       if (!this.field.formItemFlag && this.field.options.hidden) {
+        return
+      }
+      if(this.previewDetail){
         return
       }
 
@@ -484,6 +488,10 @@ export default {
 
     setDisabled(flag) {
       this.field.options.disabled = flag
+    },
+
+    setPerview(flag) {
+      this.field.options.perview = flag
     },
 
     setAppendButtonVisible(flag) {

@@ -3,7 +3,10 @@
                      :parent-widget="parentWidget" :parent-list="parentList" :index-of-parent-list="indexOfParentList"
                      :sub-form-row-index="subFormRowIndex" :sub-form-col-index="subFormColIndex" :sub-form-row-id="subFormRowId">
     <div :class="[!!field.options.autoFullWidth ? 'auto-full-width' : '']">
-      <el-time-picker ref="fieldEditor" is-range v-model="fieldModel"
+      <span v-if="previewDetail" class="form-render-content" >
+       {{ fieldModel }}
+      </span>
+      <el-time-picker v-else ref="fieldEditor" is-range v-model="fieldModelArray"
                       :class="[!!field.options.autoFullWidth ? 'full-width-input' : '']"
                       :disabled="field.options.disabled" :readonly="field.options.readonly"
                       :size="widgetSize"
@@ -12,7 +15,7 @@
                       :start-placeholder="field.options.startPlaceholder || i18nt('render.hint.startTimePlaceholder')"
                       :end-placeholder="field.options.endPlaceholder || i18nt('render.hint.endTimePlaceholder')"
                       @focus="handleFocusCustomEvent" @blur="handleBlurCustomEvent"
-                      @change="handleChangeEvent">
+                      @change="handleChange">
       </el-time-picker>
     </div>
   </form-item-wrapper>
@@ -61,6 +64,7 @@
       return {
         oldFieldValue: null, //field组件change之前的值
         fieldModel: null,
+        fieldModelArray: [],
         rules: [],
       }
     },
@@ -84,6 +88,9 @@
 
     mounted() {
       this.handleOnMounted()
+      if(this.fieldModel) {
+        this.fieldModelArray = this.fieldModel.split('至')
+      }
     },
 
     beforeUnmount() {
@@ -91,7 +98,11 @@
     },
 
     methods: {
-
+      handleChange(val) {
+        this.fieldModelArray = val
+        this.fieldModel = val.join('至')
+        this.$emit('change', val)
+      }
     }
   }
 </script>

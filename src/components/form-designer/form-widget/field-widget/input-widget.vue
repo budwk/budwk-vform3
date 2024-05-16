@@ -2,7 +2,10 @@
   <form-item-wrapper :designer="designer" :field="field" :rules="rules" :design-state="designState"
                      :parent-widget="parentWidget" :parent-list="parentList" :index-of-parent-list="indexOfParentList"
                      :sub-form-row-index="subFormRowIndex" :sub-form-col-index="subFormColIndex" :sub-form-row-id="subFormRowId">
-    <el-input ref="fieldEditor" v-model="fieldModel"
+    <span v-if="previewDetail" class="form-render-content">
+      {{ fieldModel }}
+    </span>
+    <el-input v-else ref="fieldEditor" v-model="fieldModel"
               :disabled="field.options.disabled" :readonly="field.options.readonly"
               :size="widgetSize" class="hide-spin-button"
               :type="inputType"
@@ -91,7 +94,6 @@
       this.registerToRefList()
       this.initEventHandler()
       this.buildFieldRules()
-
       this.handleOnCreated()
     },
 

@@ -2,16 +2,19 @@
   <form-item-wrapper :designer="designer" :field="field" :rules="rules" :design-state="designState"
                      :parent-widget="parentWidget" :parent-list="parentList" :index-of-parent-list="indexOfParentList"
                      :sub-form-row-index="subFormRowIndex" :sub-form-col-index="subFormColIndex" :sub-form-row-id="subFormRowId">
-    <el-radio-group ref="fieldEditor" v-model="fieldModel" :class="{'radio-group-block': field.options.displayStyle === 'block'}"
+    <span v-if="previewDetail" class="form-render-content">
+      {{ field.options.optionItems.find(item => item.value === fieldModel)?.label }}
+    </span>                 
+    <el-radio-group v-else ref="fieldEditor" v-model="fieldModel" :class="{'radio-group-block': field.options.displayStyle === 'block'}"
                     :disabled="field.options.disabled" :size="widgetSize"
                     @change="handleChangeEvent">
       <template v-if="!!field.options.buttonStyle">
-        <el-radio-button v-for="(item, index) in field.options.optionItems" :key="index" :label="item.value"
+        <el-radio-button v-for="(item, index) in field.options.optionItems" :key="index" :value="item.value"
                          :disabled="item.disabled" :border="field.options.border"
                          :style="{display: field.options.displayStyle}">{{item.label}}</el-radio-button>
       </template>
       <template v-else>
-        <el-radio v-for="(item, index) in field.options.optionItems" :key="index" :label="item.value"
+        <el-radio v-for="(item, index) in field.options.optionItems" :key="index" :value="item.value"
                   :disabled="item.disabled" :border="field.options.border"
                   :style="{display: field.options.displayStyle}">{{item.label}}</el-radio>
       </template>

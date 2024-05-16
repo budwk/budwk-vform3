@@ -3,10 +3,10 @@
                      :parent-widget="parentWidget" :parent-list="parentList" :index-of-parent-list="indexOfParentList"
                      :sub-form-row-index="subFormRowIndex" :sub-form-col-index="subFormColIndex" :sub-form-row-id="subFormRowId">
     
-    <el-tag v-for="(obj,idx) in fieldModel" :key="'role_'+idx" style="margin: 0 5px;" type="primary" :closable="field.options.clearable && !field.options.disabled" @close="removeRole(obj)">
+    <el-tag v-for="(obj,idx) in fieldModelArray" :key="'role_'+idx" style="margin: 0 5px;" type="primary" :closable="!previewDetail && field.options.clearable && !field.options.disabled" @close="removeRole(obj)">
       {{ obj.name }}
     </el-tag> 
-    <el-button style="margin: 0 5px;"  v-if="!field.options.disabled && (field.options.multiple || (!field.options.multiple && fieldModel.length<1))" type="info" text @click="showDialogSelect">
+    <el-button style="margin: 0 5px;"  v-if="!previewDetail && !field.options.disabled && (field.options.multiple || (!field.options.multiple && fieldModelArray.length<1))" type="info" text @click="showDialogSelect">
       <el-icon color="#409efc" class="no-inherit">
         <CirclePlus />
       </el-icon>
@@ -102,8 +102,9 @@
     },
     data() {
       return {
-        oldFieldValue: [], //field组件change之前的值
-        fieldModel: [],
+        oldFieldValue: null, //field组件change之前的值
+        fieldModel: null,
+        fieldModelArray: [],
         rules: [],
         showDialog: false,
         expandedKeys: [],
@@ -144,6 +145,9 @@
 
     mounted() {
       this.handleOnMounted()
+      if(this.fieldModel){
+        this.fieldModelArray = JSON.parse(this.fieldModel)
+      }
     },
 
     beforeUnmount() {
@@ -156,7 +160,8 @@
       },
       removeRole(role) {
         // 从fieldModel删除
-        this.fieldModel = this.fieldModel.filter(obj => obj.id !== role.id)
+        this.fieldModelArray = this.fieldModelArray.filter(obj => obj.id !== role.id)
+        this.fieldModel = JSON.stringify(this.fieldModelArray)
       },
       showDialogSelect() {
         this.showDialog = true
@@ -208,11 +213,12 @@
         this.getRole()
       },
       selectOne(role) {
-        this.fieldModel = [{
+        this.fieldModelArray = [{
           id: role.id,
           name: role.name,
           code: role.code
         }]
+        this.fieldModel = JSON.stringify(this.fieldModelArray)
         this.showDialog = false
       },
       selectMore(){
@@ -220,13 +226,14 @@
           this.$message.error('请选择角色')
           return
         }
-        this.fieldModel.push(...this.selectRoles.map(obj => {
+        this.fieldModelArray.push(...this.selectRoles.map(obj => {
           return {
             id: obj.id,
             name: obj.name,
             code: obj.code,
           }
         }))
+        this.fieldModel = JSON.stringify(this.fieldModelArray)
         this.showDialog = false
       },
       handleNodeClick(data) {
