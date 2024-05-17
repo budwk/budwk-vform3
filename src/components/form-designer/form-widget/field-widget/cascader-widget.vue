@@ -3,6 +3,9 @@
                      :parent-widget="parentWidget" :parent-list="parentList" :index-of-parent-list="indexOfParentList"
                      :sub-form-row-index="subFormRowIndex" :sub-form-col-index="subFormColIndex" :sub-form-row-id="subFormRowId">
     <div class="full-width-input">
+      <div v-if="previewDetail" class="form-render-content" >
+       {{ getDetailValue(fieldModel) }}
+    </div> 
       <el-cascader ref="fieldEditor" :options="field.options.optionItems" v-model="fieldModel"
                    :disabled="field.options.disabled"
                    :size="widgetSize"
@@ -95,7 +98,44 @@
     },
 
     methods: {
-
+      getDetailValue(value) {
+        if (!value) {
+          return ''
+        }
+        console.log('cascader-widget getDetailValue value:', value)
+        let optionItems = this.field.options.optionItems
+        // optionItems 是树行结构，子节点在父节点的children属性中
+        // value 是array
+        if(!this.field.options.multiple){
+            let result = []
+            this.findValue(value, optionItems,result)
+            return result.join(' / ')
+        }else{
+          // 如果是多选，那么value是一个二维数组
+          let result = []
+          value.forEach(v => {
+            let res = []
+            if(typeof v === 'string' || typeof v === 'number'){
+              v = [v]
+            }
+            this.findValue(v, optionItems, res)
+            result.push(res.join(' / '))
+          })
+          return result.join('、')
+        }
+       
+      },
+      findValue(value, optionItems, result) {
+        for (let i = 0; i < optionItems.length; i++) {
+          let item = optionItems[i]
+          if (value.includes(item.value)) {
+            result.push(item.label)
+          }
+          if (item.children) {
+            this.findValue(value, item.children, result)
+          }
+        }
+      }
     }
   }
 </script>

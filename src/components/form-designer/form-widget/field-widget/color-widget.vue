@@ -2,7 +2,10 @@
   <form-item-wrapper :designer="designer" :field="field" :rules="rules" :design-state="designState"
                      :parent-widget="parentWidget" :parent-list="parentList" :index-of-parent-list="indexOfParentList"
                      :sub-form-row-index="subFormRowIndex" :sub-form-col-index="subFormColIndex" :sub-form-row-id="subFormRowId">
-    <el-color-picker ref="fieldEditor" v-model="fieldModel"
+    <div v-if="previewDetail" class="form-render-content">
+      <div :style="'width: 20px;height: 20px;background-color:'+fieldModel"></div>
+    </div>  
+                     <el-color-picker v-else ref="fieldEditor" v-model="fieldModel"
                      :size="widgetSize"
                      :disabled="field.options.disabled"
                      @change="handleChangeEvent">

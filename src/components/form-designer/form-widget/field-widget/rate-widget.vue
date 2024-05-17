@@ -2,8 +2,9 @@
   <form-item-wrapper :designer="designer" :field="field" :rules="rules" :design-state="designState"
                      :parent-widget="parentWidget" :parent-list="parentList" :index-of-parent-list="indexOfParentList"
                      :sub-form-row-index="subFormRowIndex" :sub-form-col-index="subFormColIndex" :sub-form-row-id="subFormRowId">
+
     <el-rate ref="fieldEditor" v-model="fieldModel"
-             :disabled="field.options.disabled"
+             :disabled="previewDetail||field.options.disabled"
              :max="field.options.max"
              :low-threshold="field.options.lowThreshold" :high-threshold="field.options.highThreshold"
              :allow-half="field.options.allowHalf"

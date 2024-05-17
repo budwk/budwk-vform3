@@ -70,7 +70,8 @@
         getOptionData: () => this.optionData,
         globalModel: {
           formModel: this.formModel,
-        }
+        },
+        previewDetail: this.previewDetail,
       }
     },
     inject: ['getDesignerConfig'],

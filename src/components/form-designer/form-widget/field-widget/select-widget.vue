@@ -2,7 +2,10 @@
   <form-item-wrapper :designer="designer" :field="field" :rules="rules" :design-state="designState"
                      :parent-widget="parentWidget" :parent-list="parentList" :index-of-parent-list="indexOfParentList"
                      :sub-form-row-index="subFormRowIndex" :sub-form-col-index="subFormColIndex" :sub-form-row-id="subFormRowId">
-    <el-select ref="fieldEditor" v-model="fieldModel" class="full-width-input"
+    <div v-if="previewDetail" class="form-render-content" >
+       {{ getDetailValue(fieldModel) }}
+    </div> 
+    <el-select v-else ref="fieldEditor" v-model="fieldModel" class="full-width-input"
                :disabled="field.options.disabled"
                :size="widgetSize"
                :clearable="field.options.clearable"
@@ -107,7 +110,30 @@
     },
 
     methods: {
+      getDetailValue(value) {
+        if (!value) {
+          return ''
+        }
+        // field.options.optionItems
+        let optionItems = this.field.options.optionItems
+        let multiple = this.field.options.multiple
+        if(!multiple){
+        // 返回value对应的option
+        let option = optionItems.find(item => item.value === value)
+        return option ? option.label : ''
 
+        }else{
+          // 返回value对应的option
+          let labels = []
+          value.forEach(v => {
+            let option = optionItems.find(item => item.value === v)
+            if(option){
+              labels.push(option.label)
+            }
+          })
+          return labels.join('、')
+        }
+      }
     }
   }
 </script>

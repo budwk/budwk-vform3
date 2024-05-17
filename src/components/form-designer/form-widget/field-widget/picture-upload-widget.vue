@@ -237,7 +237,7 @@
         } else {
           newFieldValue = deepClone(fileList)
         }
-        this.fieldModel = JSON.stringify(newFieldValue)
+        this.fieldModel = newFieldValue
         this.syncUpdateFormModel(this.fieldModel)
         this.emitFieldDataChange(this.fieldModel, oldValue)
       },
@@ -258,7 +258,6 @@
 
       updateFieldModelAndEmitDataChangeForRemove(file) {
         let oldValue = deepClone(this.fieldModel)
-        let newFieldValue = JSON.parse(this.fieldModel)
         let foundFileIdx = -1
         this.fileListBeforeRemove.map((fi, idx) => {  /* 跟element-ui不同，element-plus删除文件时this.fileList数组对应元素已被删除！！ */
           if ((fi.name === file.name) && ((fi.url === file.url) || (!!fi.uid && fi.uid === file.uid))) {  /* 这个判断有问题？？ */
@@ -266,9 +265,8 @@
           }
         })
         if (foundFileIdx > -1) {
-          newFieldValue.splice(foundFileIdx, 1)
+          this.fieldModel.splice(foundFileIdx, 1)
         }
-        this.fieldModel = JSON.stringify(newFieldValue)
         this.syncUpdateFormModel(this.fieldModel)
         this.emitFieldDataChange(this.fieldModel, oldValue)
       },

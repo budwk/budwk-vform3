@@ -3,7 +3,10 @@
                      :parent-widget="parentWidget" :parent-list="parentList" :index-of-parent-list="indexOfParentList"
                      :sub-form-row-index="subFormRowIndex" :sub-form-col-index="subFormColIndex" :sub-form-row-id="subFormRowId">
     <div :class="[!!field.options.autoFullWidth ? 'auto-full-width' : '']">
-      <el-date-picker ref="fieldEditor" :type="field.options.type" v-model="fieldModel"
+      <span v-if="previewDetail" class="form-render-content">
+      {{ getDetailValue(fieldModel) }}
+    </span>  
+      <el-date-picker v-else ref="fieldEditor" :type="field.options.type" v-model="fieldModel"
                       :disabled="field.options.disabled" :readonly="field.options.readonly"
                       :size="widgetSize"
                       :clearable="field.options.clearable" :editable="field.options.editable"
@@ -90,7 +93,12 @@
     },
 
     methods: {
-
+      getDetailValue(value) {
+        if (!value) {
+          return ''
+        }
+        return value.join(' ~ ')
+      }
     }
   }
 </script>

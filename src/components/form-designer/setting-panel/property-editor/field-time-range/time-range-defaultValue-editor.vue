@@ -1,6 +1,6 @@
 <template>
   <el-form-item :label="i18nt('designer.setting.defaultValue')">
-    <el-time-picker v-model="filedValue" is-range @change="emitDefaultValueChange"
+    <el-time-picker v-model="optionModel.defaultValue" is-range @change="emitDefaultValueChange"
                     :format="optionModel.format" value-format="HH:mm:ss" style="width: 100%">
     </el-time-picker>
   </el-form-item>
@@ -17,24 +17,6 @@
       designer: Object,
       selectedWidget: Object,
       optionModel: Object,
-    },
-    data() {
-      return {
-        filedValue: []
-      }
-    },
-    onMounted() {
-      if(this.optionModel.defaultValue) {
-        this.filedValue = this.optionModel.defaultValue.split('至')
-      }
-    },
-    methods: {
-      emitDefaultValueChange(val) {
-        if(val){
-          this.optionModel.defaultValue = val.join('至')
-        }
-        this.$emit('change', val)
-      }
     }
   }
 </script>

@@ -3,10 +3,10 @@
                      :parent-widget="parentWidget" :parent-list="parentList" :index-of-parent-list="indexOfParentList"
                      :sub-form-row-index="subFormRowIndex" :sub-form-col-index="subFormColIndex" :sub-form-row-id="subFormRowId">
     
-    <el-tag v-for="(obj,idx) in fieldModelArray" :key="'user_'+idx" style="margin: 0 5px;" type="primary" :closable="!previewDetail && field.options.clearable && !field.options.disabled" @close="removeUser(obj)">
+    <el-tag v-for="(obj,idx) in fieldModel" :key="'user_'+idx" style="margin: 0 5px;" type="primary" :closable="!previewDetail && field.options.clearable && !field.options.disabled" @close="removeUser(obj)">
       {{ obj.username }}
     </el-tag> 
-    <el-button style="margin: 0 5px;"  v-if="!previewDetail && !field.options.disabled && (field.options.multiple || (!field.options.multiple && fieldModelArray.length<1))" type="info" text @click="showDialogSelect">
+    <el-button style="margin: 0 5px;"  v-if="!previewDetail && !field.options.disabled && (field.options.multiple || (!field.options.multiple && fieldModel.length<1))" type="info" text @click="showDialogSelect">
       <el-icon color="#409efc" class="no-inherit">
         <CirclePlus />
       </el-icon>
@@ -109,7 +109,6 @@
       return {
         oldFieldValue: null, //field组件change之前的值
         fieldModel: null,
-        fieldModelArray: [],
         rules: [],
         showDialog: false,
         expandedKeys: [],
@@ -153,9 +152,6 @@
 
     mounted() {
       this.handleOnMounted()
-      if(this.fieldModel){
-        this.fieldModelArray = JSON.parse(this.fieldModel)
-      }
     },
 
     beforeUnmount() {
@@ -168,8 +164,7 @@
       },
       removeUser(user) {
         // 从fieldModel删除user
-        this.fieldModelArray = this.fieldModelArray.filter(obj => obj.id !== user.id)
-        this.fieldModel = JSON.stringify(this.fieldModelArray)
+        this.fieldModel = this.fieldModel.filter(obj => obj.id !== user.id)
       },
       showDialogSelect() {
         this.showDialog = true
@@ -222,12 +217,11 @@
         this.getUser()
       },
       selectUserOne(user) {
-        this.fieldModelArray = [{
+        this.fieldModel = [{
           id: user.id,
           username: user.username,
           loginname: user.loginname
         }]
-        this.fieldModel = JSON.stringify(this.fieldModelArray)
         this.showDialog = false
       },
       selectUserMore(){
@@ -242,7 +236,6 @@
             loginname: obj.loginname
           }
         }))
-        this.fieldModel = JSON.stringify(this.fieldModelArray)
         this.showDialog = false
       },
       handleNodeClick(data) {

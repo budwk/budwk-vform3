@@ -214,7 +214,7 @@
         } else {
           newFieldValue = deepClone(fileList)
         }
-        this.fieldModel = JSON.stringify(newFieldValue)
+        this.fieldModel = newFieldValue
 
         this.syncUpdateFormModel(this.fieldModel)
         this.emitFieldDataChange(this.fieldModel, oldValue)
@@ -246,10 +246,7 @@
 
       updateFieldModelAndEmitDataChangeForRemove(deletedFileIdx, fileList) {
         let oldValue = deepClone(this.fieldModel)
-        let newFieldValue = JSON.parse(this.fieldModel)
-        newFieldValue.splice(deletedFileIdx, 1)
-        this.fieldModel = JSON.stringify(newFieldValue)
-
+        this.fieldModel.splice(deletedFileIdx, 1)
         this.syncUpdateFormModel(this.fieldModel)
         this.emitFieldDataChange(this.fieldModel, oldValue)
       },

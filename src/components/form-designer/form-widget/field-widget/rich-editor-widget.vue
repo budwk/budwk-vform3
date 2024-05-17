@@ -9,8 +9,10 @@
                 @focus="handleRichEditorFocusEvent" @blur="handleRichEditorBlurEvent">
     </vue-editor>
     -->
-
-    <div>
+    <div v-if="previewDetail" class="form-render-content" >
+                    {{ fieldModel }}
+    </div>
+    <div v-else>
       <quill-editor
               v-model:value="fieldModel"
               :options="editorOption"
