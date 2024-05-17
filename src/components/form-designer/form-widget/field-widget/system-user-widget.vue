@@ -2,8 +2,10 @@
   <form-item-wrapper :designer="designer" :field="field" :rules="rules" :design-state="designState"
                      :parent-widget="parentWidget" :parent-list="parentList" :index-of-parent-list="indexOfParentList"
                      :sub-form-row-index="subFormRowIndex" :sub-form-col-index="subFormColIndex" :sub-form-row-id="subFormRowId">
-    
-    <el-tag v-for="(obj,idx) in fieldModel" :key="'user_'+idx" style="margin: 0 5px;" type="primary" :closable="!previewDetail && field.options.clearable && !field.options.disabled" @close="removeUser(obj)">
+    <div v-if="previewDetail" class="form-render-content">
+       {{ fieldModel.map(obj => obj.username).join('、') }}
+    </div>
+    <el-tag v-else v-for="(obj,idx) in fieldModel" :key="'user_'+idx" style="margin: 0 5px;" type="primary" :closable="field.options.clearable && !field.options.disabled" @close="removeUser(obj)">
       {{ obj.username }}
     </el-tag> 
     <el-button style="margin: 0 5px;"  v-if="!previewDetail && !field.options.disabled && (field.options.multiple || (!field.options.multiple && fieldModel.length<1))" type="info" text @click="showDialogSelect">
