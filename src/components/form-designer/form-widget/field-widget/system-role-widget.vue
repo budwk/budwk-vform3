@@ -213,6 +213,7 @@
           name: role.name,
           code: role.code
         }]
+        this.syncUpdateFormModel(this.fieldModel)
         this.showDialog = false
       },
       selectMore(){
@@ -227,6 +228,7 @@
             code: obj.code,
           }
         }))
+        this.syncUpdateFormModel(this.fieldModel)
         this.showDialog = false
       },
       handleNodeClick(data) {

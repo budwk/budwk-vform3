@@ -186,6 +186,7 @@
           name: unit.name,
           path: unit.path
         }]
+        this.syncUpdateFormModel(this.fieldModel)
         this.showDialog = false
       },
       selectMore(){
@@ -200,6 +201,7 @@
             path: obj.path,
           }
         }))
+        this.syncUpdateFormModel(this.fieldModel)
         this.showDialog = false
       },
     }

@@ -222,6 +222,7 @@
           username: user.username,
           loginname: user.loginname
         }]
+        this.syncUpdateFormModel(this.fieldModel)
         this.showDialog = false
       },
       selectUserMore(){
@@ -236,6 +237,7 @@
             loginname: obj.loginname
           }
         }))
+        this.syncUpdateFormModel(this.fieldModel)
         this.showDialog = false
       },
       handleNodeClick(data) {

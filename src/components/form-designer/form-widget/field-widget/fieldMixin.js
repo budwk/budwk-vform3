@@ -88,7 +88,7 @@ export default {
       if ( ((this.field.type !== 'picture-upload') && (this.field.type !== 'file-upload')) || (this.designState === true) ) {
         return
       }
-console.log('fieldModel----------', this.fieldModel)
+
       if (!!this.fieldModel) {
         if (Array.isArray(this.fieldModel)) {
           this.fileList = deepClone(this.fieldModel)
