@@ -12,7 +12,7 @@
           :initial-index="previewIndex"
           fit="cover"
           preview-teleported
-          v-for="{file,idx} in fileList" :key="'file_'+idx"
+          v-for="file in fileList" :key="file.name"
         />
     </div>                                  
     <!-- el-upload增加:name="field.options.name"后，会导致又拍云上传失败！故删除之！！ -->

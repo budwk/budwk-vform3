@@ -4,7 +4,7 @@
                      :sub-form-row-index="subFormRowIndex" :sub-form-col-index="subFormColIndex" :sub-form-row-id="subFormRowId">
     <!-- el-upload增加:name="field.options.name"后，会导致又拍云上传失败！故删除之！！ -->
     <div v-if="previewDetail" class="form-render-content">
-      <div class="upload-file-list" v-for="{file,idx} in fileList" :key="'file_'+idx">
+      <div class="upload-file-list" v-for="file in fileList" :key="file.name">
           <span class="upload-file-name" :title="file.name">{{file.name}}</span>
           <a :href="file.url" download="" target="_blank">
             <span class="el-icon-download file-action" :title="i18nt('render.hint.downloadFile')">

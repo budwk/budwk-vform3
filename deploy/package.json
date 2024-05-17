@@ -1,6 +1,6 @@
 {
   "name": "wk-vform3",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "author": "budwk.com",
   "private": false,
   "main": "dist/designer.umd.js",

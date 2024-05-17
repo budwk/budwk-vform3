@@ -255,15 +255,10 @@
         activeCodeTab: 'vue',
         activeSFCTab: 'vue2',
 
-        testFormData: {
-          // 'userName': '666888',
-          // 'productItems': [
-          //   {'pName': 'iPhone12', 'pNum': 10},
-          //   {'pName': 'P50', 'pNum': 16},
-          // ]
-
-          'select62173': 2,
-        },
+        testFormData: {"id":"8768829680122693","created_at":1715938124413,"created_by":"8756896727919685",
+        "files":[{"name":"user_import_dev_model.xlsx","url":"/upload/file/20240517/vmvr3d51c4jecrh5n5ardftio2.xlsx"}],
+        "jilian":[[2],[3]],"duox":[2,3]
+      },
         testOptionData: {
           'select62173': [
             {label: '01', value: 1},
