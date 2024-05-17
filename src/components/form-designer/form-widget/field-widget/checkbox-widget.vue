@@ -9,12 +9,12 @@
                        :disabled="field.options.disabled" :size="widgetSize"
                        @change="handleChangeEvent">
       <template v-if="!!field.options.buttonStyle">
-        <el-checkbox-button v-for="(item, index) in field.options.optionItems" :key="index" :label="item.value"
+        <el-checkbox-button v-for="(item, index) in field.options.optionItems" :key="index" :value="item.value"
                             :disabled="item.disabled" :border="field.options.border"
                             :style="{display: field.options.displayStyle}">{{item.label}}</el-checkbox-button>
       </template>
       <template v-else>
-        <el-checkbox v-for="(item, index) in field.options.optionItems" :key="index" :label="item.value"
+        <el-checkbox v-for="(item, index) in field.options.optionItems" :key="index" :value="item.value"
                      :disabled="item.disabled" :border="field.options.border"
                      :style="{display: field.options.displayStyle}">{{item.label}}</el-checkbox>
       </template>

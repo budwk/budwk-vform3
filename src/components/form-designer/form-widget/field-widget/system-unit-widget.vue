@@ -99,7 +99,7 @@
     data() {
       return {
         oldFieldValue: null, //field组件change之前的值
-        fieldModel: null,
+        fieldModel: [],
         rules: [],
         showDialog: false,
         expandedKeys: [],

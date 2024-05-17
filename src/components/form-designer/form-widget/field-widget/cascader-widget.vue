@@ -6,7 +6,7 @@
       <div v-if="previewDetail" class="form-render-content" >
        {{ getDetailValue(fieldModel) }}
     </div> 
-      <el-cascader ref="fieldEditor" :options="field.options.optionItems" v-model="fieldModel"
+      <el-cascader v-else ref="fieldEditor" :options="field.options.optionItems" v-model="fieldModel"
                    :disabled="field.options.disabled"
                    :size="widgetSize"
                    :clearable="field.options.clearable"
@@ -102,7 +102,6 @@
         if (!value) {
           return ''
         }
-        console.log('cascader-widget getDetailValue value:', value)
         let optionItems = this.field.options.optionItems
         // optionItems 是树行结构，子节点在父节点的children属性中
         // value 是array

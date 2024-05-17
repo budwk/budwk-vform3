@@ -13,15 +13,15 @@
           </el-form-item>
           <el-form-item :label="i18nt('designer.setting.labelPosition')">
             <el-radio-group v-model="formConfig.labelPosition" class="radio-group-custom">
-              <el-radio-button label="left">{{i18nt('designer.setting.leftPosition')}}</el-radio-button>
-              <el-radio-button label="top">{{i18nt('designer.setting.topPosition')}}</el-radio-button>
+              <el-radio-button value="left">{{i18nt('designer.setting.leftPosition')}}</el-radio-button>
+              <el-radio-button value="top">{{i18nt('designer.setting.topPosition')}}</el-radio-button>
             </el-radio-group>
           </el-form-item>
           <el-form-item :label="i18nt('designer.setting.labelAlign')">
             <el-radio-group v-model="formConfig.labelAlign" class="radio-group-custom">
-              <el-radio-button label="label-left-align">{{i18nt('designer.setting.leftAlign')}}</el-radio-button>
-              <el-radio-button label="label-center-align">{{i18nt('designer.setting.centerAlign')}}</el-radio-button>
-              <el-radio-button label="label-right-align">{{i18nt('designer.setting.rightAlign')}}</el-radio-button>
+              <el-radio-button value="label-left-align">{{i18nt('designer.setting.leftAlign')}}</el-radio-button>
+              <el-radio-button value="label-center-align">{{i18nt('designer.setting.centerAlign')}}</el-radio-button>
+              <el-radio-button value="label-right-align">{{i18nt('designer.setting.rightAlign')}}</el-radio-button>
             </el-radio-group>
           </el-form-item>
           <el-form-item :label="i18nt('designer.setting.labelWidth')">
